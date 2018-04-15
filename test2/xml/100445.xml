@@ -1,0 +1,26 @@
+<annotation verified="yes">
+	<folder>JPEGImages</folder>
+	<filename>100445.jpg</filename>
+	<path>/media/jinbo/Seagate/mark_data/mark_pose_4010/pose/JPEGImages/100445.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>375</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>abnormal</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>248</xmin>
+			<ymin>111</ymin>
+			<xmax>385</xmax>
+			<ymax>337</ymax>
+		</bndbox>
+	</object>
+</annotation>
