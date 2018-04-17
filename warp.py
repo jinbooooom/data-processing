@@ -2,7 +2,7 @@
 """
 @author: Jinbo
 time: 2018-4-8
-function: 放射变换后求新坐标，并保存图和新txt
+function: 仿射变换后求新坐标，并保存图和新txt
 """
 
 import os
@@ -60,7 +60,7 @@ for oriImgName in oriImgNames[0]:
 				
 					BBS = newPosition(pos,w,h,angle)
 					content = content + label + ' ' + str(int(BBS[0])) + ' ' + str(int(BBS[1])) \
-	 				+ ' ' + str(int(BBS[2])) + ' ' + str(int(BBS[3])) + ' ' + '0 0 0 0 0 0 0\n' 
+	 				+ ' ' + str(int(BBS[2])) + ' ' + str(int(BBS[3])) + '\n' 
 					#print(BBS)
 		#print(content)
 		with open(warpTxtPath + str(int(oriImgName[:6]) + 100000 + cnt) + '.txt','w') as fw:
