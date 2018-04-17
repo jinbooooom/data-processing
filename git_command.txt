@@ -1,0 +1,8 @@
+git init
+git add * (git add <filename>)
+git commit -m "reason"
+git status
+
+git remote add origin <repository link>
+(git remote rm origin #delete origin)
+git push -u origin master(git push origin master)
