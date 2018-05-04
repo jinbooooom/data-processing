@@ -22,4 +22,33 @@ def warpAffine(image, angle):
 	M[0, 2] += (nW / 2) - cX  
 	M[1, 2] += (nH / 2) - cY      
         # perform the actual rotation and return the image  
-	return cv.warpAffine(image, M, (nW, nH)) 
+	return cv.warpAffine(image, M, (nW, nH))
+
+def mirror(image,op = 'LR'):
+	'''
+	op = 'LR',flip_left_right
+	op = 'UD',flip_up_down
+	'''
+	h,w = image.shape[:-1]
+	if(op == 'LR' or op == 'lr'):
+		iLR = np.zeros(image.shape)
+		for c in range(w // 2):
+			iLR[:,w - 1 - c],iLR[:,c] = image[:,c],image[:,w - 1 - c]
+		return iLR
+	elif(op == 'UD' or op == 'ud'):
+		iUD = np.zeros(image.shape)
+		for r in range(h // 2):
+			iUD[h - 1 - r],iUD[r] = image[r],image[h - 1 - r]
+		return iUD
+	else:
+		print('Please enter the operation you need')
+		#pass
+
+
+
+
+
+
+
+
+

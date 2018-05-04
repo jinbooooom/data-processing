@@ -2,11 +2,11 @@
 '''
 @author: Jinbo
 Time: 2018-4-11
-function: Create Annotations from text file
+function: Create Annotations from text file. At present,only single target.
 '''
 
 import xml.dom.minidom as XmlDocument
-from jinbo_lib.jinbo_os import file_name
+from jinbo_lib.os import *
 import cv2 as cv
 
 def createVOC2007xml(save_path,txt_name,label,bbs,resolution,channel):
@@ -87,16 +87,29 @@ def createVOC2007xml(save_path,txt_name,label,bbs,resolution,channel):
 	Ymin.appendChild(doc.createTextNode(bbs[1]))
 	Xmax = doc.createElement('xmax')
 	Bndbox.appendChild(Xmax)
-	Xmax.appendChild(doc.createTextNode(bbs[2]))
+	Xmax.appendChild(doc.createTextNode(str(int(bbs[2]) + int(bbs[0]))))
 	Ymax = doc.createElement('ymax')
 	Bndbox.appendChild(Ymax)
-	Ymax.appendChild(doc.createTextNode(bbs[3]))
+	Ymax.appendChild(doc.createTextNode(str(int(bbs[3]) + int(bbs[1]))))
+	'''
+	notice:
+	xmin: x
+	ymin: y
+	xmax: x + w
+	ymax: y + h
+	'''
 
-	with open(save_path + txt_name[:6] + '.xml','w') as f:
+	with open(os.path.join(save_path,os.path.splitext(txt_name)[0] + '.xml'),'w') as f:
 	    f.write((doc.toxml(encoding='utf-8')).decode('utf8'))
 
 
-def main():
+def main_old():
+	'''
+	txt都是单个小文件。形如100000.txt。内容:
+	bbGT ~
+	label1 x y w h 0 0 0 0 0 0 0
+	label2 x y w h 0 0 0 0 0 0 0
+	'''
 	txt_path = './warp/warpTxt/'
 	img_path = './warp/warpImg/'
 	save_annotations_path = './Annotations/'
@@ -125,6 +138,37 @@ def main():
 				#print(label,bbs,resolution,channel)
 				createVOC2007xml(save_annotations_path,txt,label,bbs,resolution,channel)
 
+
+def main():
+	'''
+	txt 是用 val.py计算出来的形式。
+	'''
+	txt_path = './test_results.txt'
+	img_path = './VOC2007/JPEGImages'
+	save_annotations_path = './VOC2007/Annotations'
+
+	cnt_line = 0
+	with open(txt_path,'r') as f:
+		lines = f.readlines()
+		total = len(lines)
+		for line in lines:		
+			if 'filename' in line:
+				filename = line.split()[1]
+				img = cv.imread(os.path.join(img_path,filename))
+				resolution,channel = (img.shape[1],img.shape[0]),img.shape[2]
+				cnt_line += 1
+				continue
+			if 'info' in line:
+				info = line.split()
+				label,bbs = info[1],info[3:7]
+				cnt_line += 1
+				continue
+			if 'END' in line:
+				createVOC2007xml(save_annotations_path,filename,label,bbs,resolution,channel)
+				cnt_line += 1
+			if(cnt_line % 500 == 0):
+				print('has processed %6f%%' % (100 * cnt_line / total))
+		print('has processed %6f%%' % (100 * cnt_line / total))
+
 if __name__ == '__main__':
 	main()
-

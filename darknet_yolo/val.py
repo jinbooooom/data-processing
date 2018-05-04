@@ -2,19 +2,19 @@
 """
 @author: Jinbo
 time: 2018-4-14
-function: 
+function: val test sets.
 """
 
 import os,sys
 import xml.dom.minidom
 from xml.etree import ElementTree as ET
 
-yolo_test = './yolo_test-c2g4w.txt'
+yolo_test = './mirror_yolo_test.txt' #'./yolo_test.txt'
 test_set = './2007_test.txt' # test sets,record all test image path
-save_result = './test_results.txt'
+save_result = './mirror_test_results.txt' #'./test_results.txt'
 Annotations = './VOC2007_7316c2/Annotations'
 
-labels = ['abnormal','normal']
+labels = ['normal','inclined','benttodesk']
 
 def read_xml(Annotations,filename): 
 	filename = os.path.splitext(filename)[0] + '.xml'
@@ -40,7 +40,9 @@ def processing_data():
 			#file_name = os.path.split(line)
 			#print(file_name)
 			with open(save_result,'a') as fsave:
-				if('JPEGImages' in line):
+				#if('JPEGImages' in line):
+				#if('0Aimg' in line):
+				if('Predicted' in line):
 					if(first):
 						first = False
 					else:
@@ -106,8 +108,8 @@ def accurary(): # Statistical accuracy for single target
 				
 
 def main():
-	#processing_data()
-	accurary()
+	processing_data()
+	#accurary()
 
 if __name__ == '__main__':
 	main()

@@ -2,7 +2,7 @@
 """
 @author: Jinbo
 time: 2018-4-4
-function: Match Annotation and JPEGImages
+function: Match Annotations and JPEGImages
 """
 
 import os
@@ -10,8 +10,8 @@ import sys
 import shutil
 from jinbo_os_lib import file_name,postfix,isimg
 
-JPEGImages = './test2/jpg/'
-Annotations = './test2/xml/'
+JPEGImages = './VOC2007/JPEGImages/'
+Annotations = './VOC2007/xml/'
 do_not_need_xml = './test2/no_xml/'
 do_not_need_img = './test2/no_img/'
 
