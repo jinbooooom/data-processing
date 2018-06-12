@@ -1,7 +1,0 @@
-filename 501794.jpg
-info inclined 100% 160 135 934 560 
-END
-filename 503245.jpg
-info normal 90% 13 27 1057 692 
-info benttodesk 59% 192 25 1048 694 
-END
