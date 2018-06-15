@@ -21,7 +21,7 @@ def warpAffine(image, angle):
         # adjust the rotation matrix to take into account translation  
 	M[0, 2] += (nW / 2) - cX  
 	M[1, 2] += (nH / 2) - cY      
-        # perform the actual rotation and return the image  
+        # perform the actual rotation and return the image
 	return cv.warpAffine(image, M, (nW, nH))
 
 def mirror(image,op = 'LR'):

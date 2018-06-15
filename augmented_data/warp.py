@@ -2,28 +2,28 @@
 """
 @author: Jinbo
 time: 2018-4-8
-function: 仿射变换后求新坐标，并保存图和新txt
+function: Rotate transform and calculate new coordinates.
+notice:The data format default as same as YOLO.
 """
 
 import os
 import sys
 import shutil
 import math
-from jinbo_lib.jinbo_os import file_name,postfix,isimg
-from jinbo_lib.jinbo_image import warpAffine
 import cv2 as cv
+sys.path.append("..")
+from jinbo_lib.my_os import file_name,isimg,get_file_names
+from jinbo_lib.image import warpAffine
 
 pi = 3.141593
-cnt = 1 #rename
-oriImgPath = './JPEGImages/'
-oriTxtPath = './txt/'
-warpImgPath = './warp/warpImg/'
-warpTxtPath = './warp/warpTxt/'
-angles = [-80,-60,-40,-20,20,40,60,80] #正数->顺时针
-
-def newPosition(old,w,h,dushu): #old在oriImg上的位置,w:oriW，h:oriH。
-	angle = abs(dushu * pi / 180);#化为弧度
-	dushu = -dushu # 因为正数是顺时针，而之前的C文件正数代表逆时针。
+   
+def newPosition(old,w,h,dushu):
+	'''
+	old:The coordinates on the original image,list[xmin,ymin,bboxw,bboxh]
+	w,h:The width and height of the original image.
+	'''
+	angle = abs(dushu * pi / 180);# Convert to radians
+	dushu = -dushu # Because the positive number is clockwise, the positive number in the previous C file represents counterclockwise
 	BBS = [0,0,0,0]
 	if(dushu >= 0):	
 		BBS[0] = old[1] * math.sin(angle) + old[0] * math.cos(angle)
@@ -35,39 +35,56 @@ def newPosition(old,w,h,dushu): #old在oriImg上的位置,w:oriW，h:oriH。
 	BBS[3] = old[2] * math.sin(angle) + old[3] * math.cos(angle)
 	return BBS
 
+def main():
+	init_name = 800000 # new name
+	cnt = 1 # statistics
+	# The optional parameter of data_format:[VOC2007,YOLO].VOC2007:[xmin,ymin,xmax,ymax].YOLO:[xcentre,ycentre,bboxw,bboxh]
+	data_format = 'YOLO'
+	oriImgPath = '../demo'
+	oriTxtPath = '../demo/yolo_txt'
+	warpImgPath = './warp/warpImg'
+	warpTxtPath = './warp/warpTxt'
+	angles = [-20,-10,-5,5,10,20] # Positive number --> clockwise.The absolute value of the angle cannot exceed 90
+	oriImgNames = sorted(get_file_names(oriImgPath))
+	total = len(oriImgNames) * len(angles)
 
-oriImgNames = []
-file_name(oriImgNames,oriImgPath)
-#print(oriImgNames)
-total = len(oriImgNames[0]) * len(angles)
-
-for oriImgName in oriImgNames[0]:
-	img = cv.imread(oriImgPath + oriImgName)
-	h,w = img.shape[:2]
-	for angle in angles:
-		imgwarp = warpAffine(img,angle)
-		cv.imwrite(warpImgPath + str(int(oriImgName[:6]) + 100000 + cnt) + '.jpg',imgwarp)
-		print('has processed %d,total:%d' % (cnt,total))
-		with open(oriTxtPath + postfix(oriImgName)[0]+ 'txt','r') as f:
-			lines = f.readlines()
-			content = '% bbGt version=3\n' #content:after warpAffine new pos
-			for line in lines:
-				if 'bbGt' not in line:
+	for oriImgName in oriImgNames:
+		img = cv.imread(os.path.join(oriImgPath,oriImgName))
+		h,w = img.shape[:2]
+		# print('shape',h,w)
+		for angle in angles:
+			imgwarp = warpAffine(img,angle)
+			saveWarpImgPath = os.path.join(warpImgPath,str(int(os.path.splitext(oriImgName)[0]) + init_name + cnt) + '.jpg')
+			cv.imwrite(saveWarpImgPath,imgwarp)
+			print('has processed %d,total:%d' % (cnt,total))
+			with open(os.path.join(oriTxtPath,os.path.splitext(oriImgName)[0] + '.txt'),'r') as f:
+				lines = f.readlines()
+				content = ''
+				for line in lines:
 					info = line.split()
 					label = info[0]
-					pos = [int(x) for x in info[1:5]]
-					#print(img.shape)
-				
+					# pos = [int(x) for x in info[1:5]] # xmin,ymin,w,h
+					if(data_format == 'VOC2007'):
+						pos = [float(info[1]),float(info[2]),float(info[3]) - float(info[1]),float(info[4]) - float(info[2])]
+						# print(pos)
+					if(data_format == 'YOLO'):
+						'''
+						YOLO foamat:XCentre,yCentre,w,h
+						'''
+						pos = [(float(info[1]) - float(info[3])/2.0) * w,\
+							(float(info[2]) - float(info[4])/2.0) * h,\
+							float(info[3]) * w,float(info[4]) * h]
 					BBS = newPosition(pos,w,h,angle)
 					content = content + label + ' ' + str(int(BBS[0])) + ' ' + str(int(BBS[1])) \
-	 				+ ' ' + str(int(BBS[2])) + ' ' + str(int(BBS[3])) + '\n' 
+		 				+ ' ' + str(int(BBS[2])) + ' ' + str(int(BBS[3])) + '\n' 
 					#print(BBS)
-		#print(content)
-		with open(warpTxtPath + str(int(oriImgName[:6]) + 100000 + cnt) + '.txt','w') as fw:
-			fw.write(content)
-		cnt = cnt + 1
+			#print(content)
+			with open(os.path.join(warpTxtPath,str(int(os.path.splitext(oriImgName)[0]) + init_name + cnt) + '.txt'),'w') as fw:
+				fw.write(content)
+			cnt = cnt + 1
 				
-
+if __name__ == '__main__':
+	main()
 
 		 	
 
