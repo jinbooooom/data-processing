@@ -8,7 +8,7 @@ import sys
 import shutil
 
 
-def isimg(img_name,img_features = ['jpg']): # img_feature is list.
+def isimg(img_name,img_features = ['.jpg']): # img_feature is list.
 	for img_feature in img_features:
 		if(os.path.splitext(img_name)[1].lower() in img_features):
 			return True

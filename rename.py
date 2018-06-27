@@ -7,11 +7,11 @@ function: rename images
 
 import os,sys
 import cv2 as cv
-from jinbo_lib.os import *
+from jinbo_lib.my_os import *
 
-first_name = 500000 # 110000
-rename_path = './VOC2007/JPEGImages'
-path = './VOC2007/JPEGImages'
+first_name = 101135 # 110000
+rename_path = './a'
+path = './a'
 
 cnt = 0
 
@@ -19,7 +19,7 @@ imgnames = sorted(get_file_names(path),key = str.lower)
 # print(imgnames)
 
 for oriimg in imgnames:
-	if(isimg(oriimg)):
+	if(isimg(oriimg,['.jpg'])):
 		first_name = first_name + 1
 		s1 = os.path.join(path,oriimg)
 		s2 = os.path.join(rename_path,str(first_name) + '.jpg')

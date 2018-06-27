@@ -7,7 +7,7 @@
                 read_dir $1"/"$file
             else
                 echo $1"/"$file   #在此处处理文件即可
-                sh extract_frames.sh $1"/"$file 1
+                sh extract_frames.sh $1"/"$file 2
             fi
         done
     }   
