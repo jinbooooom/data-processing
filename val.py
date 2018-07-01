@@ -7,7 +7,8 @@
 """
 notice:
 检测类别 point mAP。环境 python2.7(tfpy2.7) 
-python val.py  digitpoint.txt /home/b324-no1/github/yolo3/darknet/scripts/2007_val.txt point
+command:python val.py  digitpoint.txt /home/b324-no1/github/yolo3/darknet/scripts/2007_val.txt point
+digitpoint.txt 是 darknet 的评估生成的各类别的评估结果的txt文件。
 """
 
 import xml.etree.ElementTree as ET
@@ -216,7 +217,6 @@ if __name__ =='__main__':
         testname=sys.argv[3]
         name_id=re.compile('.*/(.*)\.jpg')
         name_xml = re.compile('(.*/).*.jpg')
-        #print(re.findall(name_id,'456/123.jpg'))
         with open(testfile, 'r') as f:
             lines = f.readlines()
         
@@ -226,8 +226,6 @@ if __name__ =='__main__':
             f.write(temp[0]+'\n')
         f.close()
         testfilepath=os.getcwd()+'/2007_val.txt'
-        
-        #testfilepath = os.path.join(os.getcwd(),detpath.split('./')[1])
         temp = re.findall(name_xml, lines[0])
         annopath=temp[0]+'{}.xml'
         print voc_eval(detpath,annopath,testfilepath,testname)[2]
