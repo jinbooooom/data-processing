@@ -34,6 +34,20 @@ def get_folders_names(dir_path):
 	'''
 	return [x for x in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path,x))]
 
+
+def mkdir(path):
+	"""
+	Create a multi-tier directory
+	:param path: path you want to create
+	:return: directory
+	"""
+	path = path.strip()
+	isExists = os.path.exists(path)
+	if not isExists:
+		os.makedirs(path)
+	else:
+		pass
+
 def main():
 	#print(get_file_names('./1'))
 	#print([x for x in os.listdir('1') if os.path.isdir(os.path.join('./1',x))])
