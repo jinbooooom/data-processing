@@ -3,6 +3,6 @@ push.sh
 _pycache_/*
 jinbo_lib/_pycache_/*
 
-.idea/*
+**/.idea/*
 **/.vs/*
 **/ConsoleApplication1/*
