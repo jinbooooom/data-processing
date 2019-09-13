@@ -2,3 +2,7 @@ data/*
 push.sh
 _pycache_/*
 jinbo_lib/_pycache_/*
+
+.idea/*
+**/.vs/*
+**/ConsoleApplication1/*

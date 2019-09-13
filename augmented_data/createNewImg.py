@@ -9,7 +9,7 @@ notice:The input and output format of labels default as same as YOLO.
 import cv2
 import os
 import jinbo_lib.my_os as jinbo
-from os .path import join as opj
+from os.path import join as opj
 import numpy as np
 import random
 
