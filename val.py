@@ -11,6 +11,7 @@ command:python val.py  digitpoint.txt /home/b324-no1/github/yolo3/darknet/script
 digitpoint.txt 是 darknet 的评估生成的各类别的评估结果的txt文件。
 """
 
+
 import xml.etree.ElementTree as ET
 import os
 import cPickle

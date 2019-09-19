@@ -7,10 +7,8 @@ notice:The input and output format of labels default as same as YOLO.
 """
 
 import cv2
-import os
 import jinbo_lib.my_os as jinbo
 from os.path import join as opj
-import numpy as np
 import random
 
 if __name__ == "__main__":
@@ -120,7 +118,7 @@ if __name__ == "__main__":
                         im = cv2.imread(r_im)
 
                         im = cv2.resize(im, (xmax - xmin, ymax - ymin))
-                        #print(img[ymin:ymax, xmin:xmax].shape)
+                        # print(img[ymin:ymax, xmin:xmax].shape)
                         img[ymin:ymax, xmin:xmax] = im
                     else:
                         r_d = 10

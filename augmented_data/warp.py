@@ -8,16 +8,15 @@ notice:The data format default as same as YOLO.
 
 import os
 import sys
-import shutil
 import math
 import cv2 as cv
 sys.path.append("..")
 import jinbo_lib.my_os as jinbo
 from os.path import join as opj
 from jinbo_lib.image import warpAffine
-
 pi = 3.141593
-   
+
+
 def newPosition(old, w, h, dushu):
 	"""
 	:param old: The coordinates on the original image, list[xmin, ymin, bboxw, bboxh]
@@ -26,7 +25,8 @@ def newPosition(old, w, h, dushu):
 	:return: The coordinates on the new image
 	"""
 	angle = abs(dushu * pi / 180)  # Convert to radians
-	# Because the positive number is clockwise, the positive number in the previous C file represents counterclockwise
+	# Because the positive number is clockwise,
+	# the positive number in the previous C file represents counterclockwise
 	dushu = -dushu
 	bbox = [0, 0, 0, 0]
 	if(dushu >= 0):	
@@ -39,18 +39,19 @@ def newPosition(old, w, h, dushu):
 	bbox[3] = old[2] * math.sin(angle) + old[3] * math.cos(angle)
 	return bbox
 
+
 if __name__ == '__main__':
 	gap = 100
-	init_name = 800000 # new name
+	init_name = 800000  # new name
 	cnt = 0  # statistics
 	# The optional parameter of data_format:[VOC2007,YOLO].
-	# VOC2007:[xmin,ymin,xmax,ymax].
-	# YOLO:[xcentre,ycentre,bboxw,bboxh]
+	# VOC2007:[xmin, ymin, xmax, ymax].
+	# YOLO:[xcentre, ycentre, bboxw, bboxh]
 	data_format = 'YOLO'
-	oriImgPath = '../data/led/VOC2007/JPEGImages'
-	oriTxtPath = '../data/led/VOC2007/labels'
-	warpImgPath = '../data/led/VOC2007/warp/imgs'
-	warpTxtPath = '../data/led/VOC2007/warp/labels'
+	oriImgPath = '../data/my_VOC2007/JPEGImages'
+	oriTxtPath = '../data/my_VOC2007/labels'
+	warpImgPath = '../data/my_VOC2007/warp/imgs'
+	warpTxtPath = '../data/my_VOC2007/warp/labels'
 	jinbo.mkdir(warpImgPath)
 	jinbo.mkdir(warpTxtPath)
 	# Positive number --> clockwise.The absolute value of the angle cannot exceed 90
@@ -75,21 +76,20 @@ if __name__ == '__main__':
 					# pos = [int(x) for x in info[1:5]] # save format: xmin,ymin,w,h
 					if(data_format == 'VOC2007'):
 						pos = [float(info[1]),
-							   float(info[2]),
-							   float(info[3]) - float(info[1]),
-							   float(info[4]) - float(info[2])]
+								float(info[2]),
+								float(info[3]) - float(info[1]),
+								float(info[4]) - float(info[2])]
 						# Eliminate 10,000 codes.
 						# Customize it in your own style.
-						pass
 
-					if(data_format == 'YOLO'):
-						'''
+					if data_format == 'YOLO':
+						"""
 						save as YOLO foamat:XCentre,yCentre,w,h
-						'''
+						"""
 						pos = [(float(info[1]) - float(info[3])/2.0) * w,
-							   (float(info[2]) - float(info[4])/2.0) * h,
-							   float(info[3]) * w,
-							   float(info[4]) * h]
+								(float(info[2]) - float(info[4])/2.0) * h,
+								float(info[3]) * w,
+								float(info[4]) * h]
 						# now pos:[xmin, ymin, w, h], This is intput format of function newPosition(old, w, h, dushu)
 						# print('old_bbox', pos)
 						bbox = newPosition(pos, w, h, angle)  # h, w is ori_img's shape
@@ -112,7 +112,4 @@ if __name__ == '__main__':
 				print("has processed {:%}, {} files,".format(cnt / total, cnt))
 			elif cnt == total:
 				print("Mission completed! {:%}, {} files,".format(cnt / total, cnt))
-
-
-		 	
 

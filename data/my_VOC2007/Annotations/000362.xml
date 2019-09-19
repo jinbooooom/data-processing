@@ -1,0 +1,26 @@
+<annotation>
+	<folder>img</folder>
+	<filename>000362.jpg</filename>
+	<path>/home/jinbo/gitme/data-processing/data/data_test/img/000362.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>333</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>2</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>164</xmin>
+			<ymin>29</ymin>
+			<xmax>287</xmax>
+			<ymax>268</ymax>
+		</bndbox>
+	</object>
+</annotation>
