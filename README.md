@@ -3,15 +3,15 @@ Personal tools for processing deep learning data(VOC2007，CSV)
 
 - ### 镜像
 augmented_data/mirror.py 
-![](./demo/100028)
-![](./augmented_data/mirror/800002.jpg)
-![](./augmented_data/mirror/800001.jpg)
+![](./demo/100028.jpg)
+![](./augmented_data/mirror/800007.jpg)
+![](./augmented_data/mirror/800008.jpg)
 
 - ### 仿射变换
 augmented_data/warp.py
 augmented_data/showBBox.py
-![](./data/my_VOC2007/warp/bboxImages/800440)
-![](./data/my_VOC2007/warp/bboxImages/800443)
+![](./data/my_VOC2007/warp/bboxImages/800440.jpg)
+![](./data/my_VOC2007/warp/bboxImages/800443.jpg)
 
 - ### 生成新图片
 augmented_data/createNewImg.py
