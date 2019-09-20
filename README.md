@@ -3,7 +3,7 @@ Personal tools for processing deep learning data(VOC2007，CSV)
 
 - ### 镜像
 augmented_data/mirror.py   
-![IMG](https://github.com/jinbooooom/data-processing/blob/master/demo/100028.jpg)
+![IMG](./demo/100028.jpg)
 ![IMG](./augmented_data/mirror/800007.jpg)
 ![IMG](./augmented_data/mirror/800008.jpg)
 
